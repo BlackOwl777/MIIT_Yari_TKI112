@@ -1,28 +1,58 @@
-﻿#define _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include <math.h>
 #include <iostream>
 #include <stdlib.h>
 
 using namespace std;
+/*
+* @brief вычисление площади конуса
+* @param radius радиус 
+* @param lenght длина
+* @return площадь поверхности
+*/
+double getSquare(const double radius, const double lenght);
+
+/*
+* @brief вычисление высоты конуса
+* @param radius радиус
+* @param lenght длина
+* @return высота конуса
+*/
+double getHeight(const double radius, const double lenght);
+
+/*
+* @brief вычисление объема конуса
+* @param radius радиус
+* @param lenght длина
+* @return объем конуса
+*/
+double getVolume(const double radius, const double lenght);
 
 int main()
 {
-	setlocale(0, "rus");
-	double H;
-	cout << "Введите высоту конуса: ";
-	cin >> H;
-	double L;
-	cout << "Длину образующей конуса: ";
-	cin >> L;
-	double R = H / 2;
-	double S = (M_PI * (R * R)) + (M_PI * R * L);
-	cout << "Площадь полной поверхности конуса: ";
-	cout << S << endl;
-	double V = 0.3333333333 * H * M_PI * (R * R);
-	cout << "Объём: ";
-	cout << V << endl;
-	return 0;
+    setlocale(0, "rus");
+    double r;
+    cout << "Введите Радиус: ";
+    cin >> r;
+    double l;
+    cout << " Введите длину: ";
+    cin >> l;
+    cout << "Площадь конуса равна: " << getSquare(r, l);
+    cout << "Объем конуса равен: " << getVolume(r, l);
 }
 
+double getSquare(const double radius, const double lenght)
+{
+    return (M_PI * radius * lenght + (radius * radius));
+}
 
+double getHeight(const double radius, const double lenght)
+{
+    return (2 * radius * (pow(radius, 2) - 1) / pow(radius, 2))
+}
+
+double getVolume(const double radius, const double lenght)
+{
+    return ((1 / 3) * getSquare(radius, lenght) * getHeight(radius, lenght));
+}
