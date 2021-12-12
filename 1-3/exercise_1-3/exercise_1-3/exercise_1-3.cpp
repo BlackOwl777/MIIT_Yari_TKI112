@@ -1,9 +1,18 @@
-﻿#define _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
 
-
 using namespace std;
+
+/*
+* @brief вычисление пути пройдёным машиной
+* @param a совершенная работа
+* @param f сила тяги
+* @return путь пройденный автомобилем
+*/
+double getWay(const double a; const double f);
+
+
 
 int main()
 {
@@ -11,12 +20,15 @@ int main()
 	cout<< "Введите силу тяги - F: ";
 	double f = 0;
 	cin >> f;
-	cout << "Ведите значиние работы - A: ";
+	cout << "Введите значиние работы - A: ";
 	double a = 0;
 	cin >> a;
 
-	double way = (a * 1000000) / (f * 1000);
-
-	cout << "Путь пройденный автомобилем равен: " << way << endl;
+	cout << "Путь пройденный автомобилем равен: " << getWay(a, f) << endl;
 	return 0;
+}
+
+double getWay(const double a; const double f)
+{
+	return ((a * 1000000) / (f * 1000));
 }
