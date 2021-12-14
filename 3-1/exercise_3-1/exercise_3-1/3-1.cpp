@@ -10,17 +10,42 @@ using namespace std;
 */
 double getY(const double x);
 
+/*
+* \brief выполняет функцию 
+* \param x значение переменной x
+* \return 1, в случае успеха
+*/
+double NoGetY(const double x);
 
+/*
+* \brief точка входа в программу
+* \return 0, в случае успеха
+*/
 int main() 
 {
   cout << fixed << setprecision(5);
-  for (double x = -10; x <= 0.81; x += 0.05) 
+  double x = -10;
+  const auto edge = 0.80;
+  const auto step = 0.05;
+
+  for (x; x <= edge; x += step)
+  {
+    if (NoGetY(x))
+    {
+      cout << "Нет решений" << endl;
+    }
     cout << "x = " << x << " " << "y = " << getY(x) << " " << "\n";
-  return (0);
+  }
+    
+  return 0;
 }
 
 double getY(const double x) 
 {
-  double ans = tan(x) - ((1 / 3) * pow(tan(x), 3)) + (0.2 * pow(tan(x), 5)) - (1 / 3);
-  return (ans);
+  return tan(x) - ((1.0 / 3.0) * pow(tan(x), 3)) + (0.2 * pow(tan(x), 5)) - (1.0 / 3.0);
+}
+
+double NoGetY(const double x)
+{
+  return (1/(tan(x) - ((1.0 / 3.0) * pow(tan(x), 3)) + (0.2 * pow(tan(x), 5)) - (1.0 / 3.0)));
 }
