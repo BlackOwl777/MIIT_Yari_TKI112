@@ -52,5 +52,5 @@ double getHeight(const double radius, const double lenght)
 
 double getVolume(const double radius, const double lenght)
 {
-    return ((1 / 3) * getSquare(radius, lenght) * getHeight(radius, lenght));
+    return ((1.0 / 3) * getSquare(radius, lenght) * getHeight(radius, lenght));
 }
