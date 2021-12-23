@@ -10,7 +10,7 @@ using namespace std;
 * @param force сила тяги
 * @return путь пройденный автомобилем
 */
-double getWay(const double work; const double force);
+double getWay(const double work, const double force);
 
 
 
@@ -28,7 +28,7 @@ int main()
 	return 0;
 }
 
-double getWay(const double work; const double force)
+double getWay(const double work, const double force)
 {
 	return ((work * 1000000) / (force * 1000));
 }
