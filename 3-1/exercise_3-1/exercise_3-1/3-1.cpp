@@ -13,7 +13,7 @@ double getY(const double x);
 /*
 * \brief выполняет функцию 
 * \param x значение переменной x
-* \return 1, в случае успеха
+* \return 0, в случае успеха
 */
 double NoGetY(const double x);
 
