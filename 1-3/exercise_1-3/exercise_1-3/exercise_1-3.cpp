@@ -6,11 +6,11 @@ using namespace std;
 
 /*
 * @brief вычисление пути пройдёным машиной
-* @param a совершенная работа
-* @param f сила тяги
+* @param work совершенная работа
+* @param force сила тяги
 * @return путь пройденный автомобилем
 */
-double getWay(const double a; const double f);
+double getWay(const double work; const double force);
 
 
 
@@ -18,17 +18,17 @@ int main()
 {
 	setlocale(0, "rus"); //перевод на русские буквы
 	cout<< "Введите силу тяги - F: ";
-	double f = 0;
-	cin >> f;
+	double force = 0;
+	cin >> force;
 	cout << "Введите значиние работы - A: ";
-	double a = 0;
-	cin >> a;
+	double work = 0;
+	cin >> work;
 
-	cout << "Путь пройденный автомобилем равен: " << getWay(a, f) << endl;
+	cout << "Путь пройденный автомобилем равен: " << getWay(work, force) << endl;
 	return 0;
 }
 
-double getWay(const double a; const double f)
+double getWay(const double work; const double force)
 {
-	return ((a * 1000000) / (f * 1000));
+	return ((work * 1000000) / (force * 1000));
 }
