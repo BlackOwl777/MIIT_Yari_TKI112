@@ -123,7 +123,11 @@ int main() {
 	MinToAverage(array, size);
 	cout << arrayToString(array, size, "Измененный массив = ") << '\n';
 
-	array = nullptr;
+	if (array != nullptr)
+	{	
+		delete[] array;
+   		array = nullptr;
+	}
 }
 
 void randomizeArray(int* array, const size_t size, const int min, const int max)
