@@ -1,43 +1,70 @@
-﻿#define _USE_MATH_DEFINES 
+#define _USE_MATH_DEFINES 
+
 #include <iostream>
 #include <cmath>
+#include <iomanip>
+
+
 using namespace std;
 
-double option(const double a, const double x);
-double Func1(const double a, const double x);
-double Func2(const double a, const double x);
+/
+* \brief Функция расчета для случая, когда x > 1.
+* \param x Входная величина.
+* \param a Входная величина.
+* \return Значение функции.
+*/
+double Func1(const double x);
+/
+* \brief Функция расчета для случая, когда x <= 1.
+* \param x Входная величина.
+* \param a Входная величина.
+* \return Значение функции.
+*/
+double Func2(const double x, const double a);
+/
+* \brief Проверка варианта.
+* \param x Входная величина.
+* \param a Входная величина.
+* \return Значение функции.
+*/
+double option(const double a, const double x, const double comparise, double result);
 
+/
+* \brief Точка входа в программу.
+* \return Код ошибки (0 - успех).
+*/
 int main()
 {
-    setlocale(0, "rus");
+    setlocale(LC_ALL, "ru");
+    const auto a = 20.3;
+    const auto comparise = 1;
     double x;
-    cout << "Введите число: " << endl;
+    cout << "Введите переменную x = ";
     cin >> x;
-    const double a = 20.3;
-
+    double result;
     cout << option(a, x) << endl;
+
     return 0;
 }
 
-double option(const double a, const double x)
-{
-    if (x > 1)
-    {
-        return Func1(a, x);
-    }
-    else
-        if (x <= 1)
-        {
-            return Func2(a, x);
-        }
-}
-
-double Func1(const double a, const double x)
+double Func1(const double x)
 {
     return log(x + 1);
 }
 
-double Func2(const double a, const double x)
+double Func2(const double x, const double a)
 {
     return sin(2) * sqrt(abs(a * x));
+}
+
+double option(const double a, const double x,const double comparise,double result)
+{
+    if (x > comparise)
+        result = Func1(x);
+
+    else
+
+        result = Func2(x, a);
+
+    cout << "y = " << setprecision(15) << result << endl;
 }
