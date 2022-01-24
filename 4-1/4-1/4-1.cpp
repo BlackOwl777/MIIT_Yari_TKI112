@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cmath>
 #include <random>
 #include <string>
@@ -82,13 +82,13 @@ int main() {
 	const int min = -20, max = 40;
 
 	cout << "Введите размер массива\n";
-	size_t size;
+	size_t size,choice;
 	cin >> size;
 	int* array = new int[size];
 
-	cout << "Выберите способ заполнения массива:\n" << "Случайные элементы - 1\n" << "Ручной ввод - 2\n";
-
-	int choice;
+	cout << "Выберите способ заполнения массива:";
+	cout << "Случайные элементы - " << static_cast<int>(Input::randomize);
+	cout << "Ручной ввод - " << static_cast<int>(Input::user);
 	cin >> choice;
 
 	const auto input = static_cast<Input>(choice);
@@ -97,15 +97,15 @@ int main() {
 	{
 	case Input::randomize:
 	{
-		randomizeArray(array, size, min, max);
-		cout << arrayToString(array, size, "массив = ") << "\n";
-		break;
+							 randomizeArray(array, size, min, max);
+							 cout << arrayToString(array, size, "массив = ") << "\n";
+							 break;
 	}
 	case Input::user:
 	{
-		userInput(array, size);
-		cout << arrayToString(array, size, "массив = ") << "\n";
-		break;
+						userInput(array, size);
+						cout << arrayToString(array, size, "массив = ") << "\n";
+						break;
 	}
 	default:
 		break;
@@ -124,9 +124,9 @@ int main() {
 	cout << arrayToString(array, size, "Измененный массив = ") << '\n';
 
 	if (array != nullptr)
-	{	
+	{
 		delete[] array;
-   		array = nullptr;
+		array = nullptr;
 	}
 }
 
@@ -183,7 +183,7 @@ int GetAverage(int* array, size_t size) {
 	for (size_t i = 1.0; i < size; i++) {
 		average += array[i];
 	}
-	return average / size;
+	return average / int (size);
 }
 
 void MinToAverage(int* array, size_t size)
@@ -196,8 +196,8 @@ void ShowIndex(int* array, size_t size) {
 		return;
 
 	for (size_t i = 1.0; i < size - 1; i++)
-		if (array[i] < array[i + 1])
-			cout << "index = " << i + 1 << '\n';
+	if (array[i] < array[i + 1])
+		cout << "index = " << i + 1 << '\n';
 
 }
 
@@ -205,7 +205,7 @@ bool CheckElement(int* array, size_t size) {
 	int k = 0;
 
 	for (size_t i = 0; i < size; i++)
-		if (array[i] * array[i + 1] > 0)
-			k++;
+	if (array[i] * array[i + 1] > 0)
+		k++;
 	return k >= 2;
 }
