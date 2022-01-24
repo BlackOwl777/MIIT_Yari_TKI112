@@ -1,51 +1,59 @@
 #include <iostream>
-#include <iomanip>
 #include <cmath>
+#include <iomanip>
+
+
 using namespace std;
 
-/*
-* \brief вычисление значения функции
-* \param x значение переменной x
-* \return значение функции
+/**
+* \brief Возможность расчета функции в точке
+* \param x Входной параметр - точка x
+* \return true, если функция определена в заданной точке x
 */
-double getY(const double x);
+bool IsCalculated(const double x);
 
-/*
-* \brief выполняет функцию 
-* \param x значение переменной x
-* \return 0, в случае успеха
+/**
+* \brief Расчет функции в точке x
+* \param x Входной параметр - точка x
+* \return Значение функции в точке x
 */
-double NoGetY(const double x);
+double Calculation(const double x);
 
-/*
-* \brief точка входа в программу
-* \return 0, в случае успеха
+/**
+* \brief Точка входа в программу
+* \return Код ошибки (0 - успех)
 */
-int main() 
+void main()
 {
-  cout << fixed << setprecision(5);
-  double x = -10;
-  const auto edge = 0.80;
-  const auto step = 0.05;
+	const auto leftBound = 0;
+	const auto rightBound = 0.8;
+	const auto step = 0.05;
 
-  for (x; x <= edge; x += step)
-  {
-    if (NoGetY(x))
-    {
-      cout << "Нет решений" << endl;
-    }
-    cout << "x = " << x << " " << "y = " << getY(x) << " " << "\n";
-  }
-    
-  return 0;
+	auto x = leftBound;
+	cout << "  x" << setw(15) << "y\n";
+	while ((x < rightBound) || (abs(x - rightBound) < step))
+	{
+		if (IsCalculated(x))
+		{
+			const auto y = Calculation(x);
+			cout << setw(10) << setprecision(2) << x << setw(15)
+				<< setprecision(5) << y << '\n';
+		}
+		else
+		{
+			cout << setw(10) << setprecision(2) << x << setw(15)
+				<< "not defined \n";
+		}
+		x += step;
+	}
 }
 
-double getY(const double x) 
+double Calculation(const double x)
 {
-  return tan(x) - ((1.0 / 3.0) * pow(tan(x), 3)) + (0.2 * pow(tan(x), 5)) - (1.0 / 3.0);
+	return (1 / (tan(x) - ((1.0 / 3.0) * pow(tan(x), 3)) + (0.2 * pow(tan(x), 5)) - (1.0 / 3.0)));
 }
 
-double NoGetY(const double x)
+bool IsCalculated(const double x)
 {
-  return (1/(tan(x) - ((1.0 / 3.0) * pow(tan(x), 3)) + (0.2 * pow(tan(x), 5)) - (1.0 / 3.0)));
+	return (abs(x) > numeric_limits<long double>::epsilon());
 }
