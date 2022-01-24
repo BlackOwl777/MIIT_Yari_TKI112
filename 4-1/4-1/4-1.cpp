@@ -97,15 +97,15 @@ int main() {
 	{
 	case Input::randomize:
 	{
-							 randomizeArray(array, size, min, max);
-							 cout << arrayToString(array, size, "массив = ") << "\n";
-							 break;
+		randomizeArray(array, size, min, max);
+		cout << arrayToString(array, size, "массив = ") << "\n";
+		break;
 	}
 	case Input::user:
 	{
-						userInput(array, size);
-						cout << arrayToString(array, size, "массив = ") << "\n";
-						break;
+		userInput(array, size);
+		cout << arrayToString(array, size, "массив = ") << "\n";
+		break;
 	}
 	default:
 		break;
