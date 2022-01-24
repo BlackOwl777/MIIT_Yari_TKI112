@@ -12,18 +12,21 @@ using namespace std;
 * \param x Входная величина.
 * \param a Входная величина.
 * \return Значение функции.
+/
 double Func1(const double x);
 /
 * \brief Функция расчета для случая, когда x <= 1.
 * \param x Входная величина.
 * \param a Входная величина.
 * \return Значение функции.
+/
 double Func2(const double x, const double a);
 /
 * \brief Проверка варианта.
 * \param x Входная величина.
 * \param a Входная величина.
 * \return Значение функции.
+/
 double option(const double a, const double x, const double comparise, double result);
 
 /
