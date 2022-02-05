@@ -32,6 +32,7 @@ double getSumm2(double e, int k);
 */
 int main()
 {
+    setlocale(LC_ALL, "Russian");
     int n;
     double e = 0.0;
     int k = 0;
