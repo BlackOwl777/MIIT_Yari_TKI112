@@ -180,7 +180,7 @@ size_t GetMin(int* array, size_t size) {
 
 int GetAverage(int* array, size_t size) {
 	int average = 0;
-	for (size_t i = 1.0; i < size; i++) {
+	for (size_t i = 1; i < size; i++) {
 		average += array[i];
 	}
 	return average / int (size);
