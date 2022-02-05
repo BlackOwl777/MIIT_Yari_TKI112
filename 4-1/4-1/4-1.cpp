@@ -2,8 +2,6 @@
 #include <cmath>
 #include <random>
 #include <string>
-#include <sstream>
-#include <Windows.h>
 
 using namespace std;
 
@@ -155,7 +153,7 @@ string arrayToString(int* array, const size_t size, const string& message = "")
 	stringstream str;
 	str << message << "{" << array[0];
 
-	for (size_t i = 1.0; i < size; ++i)
+	for (size_t i = 1; i < size; ++i)
 	{
 		str << ", " << array[i];
 	}
@@ -169,7 +167,7 @@ string arrayToString(int* array, const size_t size, const string& message = "")
 size_t GetMin(int* array, size_t size) {
 	size_t minIndex = 0;
 
-	for (size_t i = 1.0; i < size; i++)
+	for (size_t i = 1; i < size; i++)
 	{
 		if (array[minIndex] > array[i])
 			minIndex = i;
@@ -195,7 +193,7 @@ void ShowIndex(int* array, size_t size) {
 	if (size <= 2)
 		return;
 
-	for (size_t i = 1.0; i < size - 1; i++)
+	for (size_t i = 1; i < size - 1; i++)
 	if (array[i] < array[i + 1])
 		cout << "index = " << i + 1 << '\n';
 
