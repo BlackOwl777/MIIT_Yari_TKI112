@@ -1,54 +1,69 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cmath>
 
 using namespace std;
 
-/**/
-/* brief Нахождение суммы n членов последовательности.
-/* param n - количество складываемых членов.
-/* return sum - искомая сумма
-/**/
-double getSum(const int n);
+/**
+ * \brief функция определения текущего элемента ряда.
+ * param k - переменная для вычисления элемента ряда.
+ * \return значение текущего элемент ряда.
+*/
+double getCurrent(const int k);
 
-double getFactorial(const int n);
+/**
+ * \brief функция вычисления суммы первых n элементов ряда.
+ * param n - количество элементов ряда.
+ * param k - переменная для вычисления элемента ряда.
+ * \return сумма первых n элементов ряда.
+ */
+double getSumm1(int n, int k);
 
-/**/
-/* brief Точка входа в программу.
-/* return 0 в случае успеха.
-/**/
+/**
+ * \brief вычисление суммы членов ряда не меньших числа e.
+ * param e - константа по условию.
+ * param k - переменная для вычисление элемента ряда.
+ * \return сумма членов ряда не меньших числа e.
+*/
+double getSumm2(double e, int k);
+
+/**
+ * \brief точка входа в программу.
+ * return 0 в случае успеха.
+*/
 int main()
 {
+    int n;
+    double e = 0.0;
     int k = 0;
-    int n = 1;
-    cout << "Сколько членов последовательности сложить?\n";
+    cout<<"Введите количество членов ряда"<< endl;
     cin >> n;
-    if (n < 2) {
-        cout << "Неверное значение";
-        return 1;
-    }
-
-    cout << "Сумма = " << getSum(n);
+    cout<< "Введите e ";
+    cin>>e;
+    cout<< getSumm1(n, k)<< endl;
+    cout<< getSumm2(e, k);
     return 0;
 }
 
-double getSum(const int n)
-{
-    double nk = 0;
-    double sum = 0;
-    for (size_t k = 0; k < n; k++)
-    {
-        nk = 1 / getFactorial(2 * k);
-        sum += nk;
-    }
-    return sum;
+double getCurrent(const int k){
+    return 1.0 / (2.0 * k + 1);
 }
 
-double getFactorial(const int n)
-{
-    double factorial = 1;
-    if (n == 0)
-        return (1);
-    for (size_t i = 1; i < n; i++)
-        factorial *= i;
-    return (factorial);
+double getSumm1(int n,int k){
+    double sum;
+    for (int i = 1; i <=  n; i++){
+        sum = sum + getCurrent(k);
+        k=k+1;
+    }
+return sum;
+}
+
+double getSumm2(double e, int k){
+    double cur, sum;
+    cur = getCurrent(k);
+    while (cur > e){
+        sum = sum + cur;
+        k++;
+        cur = getCurrent(k);
+    }
+    return sum;
 }
