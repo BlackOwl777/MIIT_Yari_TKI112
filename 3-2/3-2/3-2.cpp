@@ -4,27 +4,18 @@
 using namespace std;
 
 /**
- * \brief функция определения текущего элемента ряда.
- * param k - переменная для вычисления элемента ряда.
- * \return значение текущего элемент ряда.
-*/
-double getCurrent(const int k);
-
-/**
- * \brief функция вычисления суммы первых n элементов ряда.
- * param n - количество элементов ряда.
- * param k - переменная для вычисления элемента ряда.
- * \return сумма первых n элементов ряда.
+ * \brief функция вычисления значения члена ряда.
+ * param k номер члена ряда.
+ * \return значение члена ряда.
  */
-double getSumm1(int n, int k);
+double getSumm(int k);
 
 /**
- * \brief вычисление суммы членов ряда не меньших числа e.
- * param e - константа по условию.
- * param k - переменная для вычисление элемента ряда.
- * \return сумма членов ряда не меньших числа e.
+* \brief функция нахождения факториала нужного для вычисления члена ряда
+* \param k номер члена ряда
+* \return факториал
 */
-double getSumm2(double e, int k);
+double getFactorial(int k);
 
 /**
  * \brief точка входа в программу.
@@ -33,38 +24,25 @@ double getSumm2(double e, int k);
 int main()
 {
     setlocale(LC_ALL, "Russian");
+    cout << "Введите количество членов ряда" << endl;
     int n;
-    double e = 0.0;
-    int k = 0;
-    cout<<"Введите количество членов ряда"<< endl;
-    cin >> n;
-    cout<< "Введите e ";
-    cin>>e;
-    cout<< getSumm1(n, k)<< endl;
-    cout<< getSumm2(e, k);
+    cin >> n;   
+    double sum = 0.0;
+    for (size_t k = 0; k < n; k++)
+        sum += getSumm(k);
+    cout << "Сумма ряда: " << sum;
     return 0;
 }
 
-double getCurrent(const int k){
-    return 1.0 / (2.0 * k + 1);
+double getSumm(int k) 
+{
+    return (1 / getFactorial(2 * k));
 }
 
-double getSumm1(int n,int k){
-    double sum;
-    for (int i = 1; i <=  n; i++){
-        sum = sum + getCurrent(k);
-        k=k+1;
-    }
-return sum;
-}
-
-double getSumm2(double e, int k){
-    double cur, sum;
-    cur = getCurrent(k);
-    while (cur > e){
-        sum = sum + cur;
-        k++;
-        cur = getCurrent(k);
-    }
-    return sum;
+double getFactorial(int k)
+{
+    int factorial = 1;
+    for (size_t i = 1; i <= k; i++)
+        factorial *= i;
+    return (factorial);
 }
