@@ -1,79 +1,100 @@
-﻿#include <iostream>
-#include <string>
-#include <ctime>
+#include <iostream>
+#include <cmath>
 #include <random>
+
 using namespace std;
 
 /**
- * \brief Проверка ввода размера массива.
- * \return Размер массива.
+ * \brief рекурсивная функция для расчета значения.
+ * param k число.
+ * \return значение.
  */
-size_t GetSize();
+double getSumm(int k);
 
 /**
- *\brief Вычисление нового размера массива.
- *\param size размер массива.
- *\return Размер нового массива.
-*/
-size_t NewSize(const int* myArray, size_t size);
+ * \brief функция нахождения факториала нужного для вычисления члена ряда.
+ *  \param k номер члена ряда.
+ *  \return факториал.
+ */
+double getFactorial(int k);
 
+
+
+void printArray(int arr[], int size)
+
+{
+    for (int i = 0; i < size; ++i) cout << arr[i] << ' ';
+}
+
+void method1(int *arr, int size)
 /**
- * \brief Заполнение массива случайными числами.
+ * \brief Заменить минимальный по модулю положительный элемент массива последним.
+ * \param arr массив.
  * \param size размер массива.
- * \param minValue минимальное значение элементов массива.
- * \param maxValue максимальное значение элементов массива.
- * \return заполненный массив.
+ * \return измененный массив на максимальный среди отрицательных.
  */
-int* FillRandomArray(size_t size, int minValue, int maxValue);
-
-/**
- * \brief Вывод массива на консоль.
- * \param myArray массив.
- * \param size размер массива.
- */
-void ArrayPrint(const int* myArray, size_t size);
+{
+    int minIndex = -1; 
+    int minValue = 40;
+    for (int i = 0; i < size; ++i) { 
+        if (arr[i] <= minValue and arr[i] > 0) {
+            minIndex = i;
+            minValue = arr[i];
+        }
+    }
+    
+    if (minIndex != -1 and arr[minIndex] != arr[size-1]) {
+        arr[minIndex] = arr[size-1];
+        cout << endl << "был изменен элемент с индексом "<< minIndex << endl;
+    } else {
+        cout << endl << "изменений не произведено, т.к. отсутствуют положительные элементы отличные от послежнего" << endl;
+    }
+}
 
 /**
  * \brief Удаление нечетных элементов, кратных 3.
- * \param myArray массив.
+ * \param arr массив.
  * \param size размер массива.
  * \return изменённый массив.
  */
-int* IsOddAndMulpiples3(int* myArray, size_t size);
-
-/**
- * \brief Создание нового массива по заданным формулам.
- * \param myArray массив.
- * \param size размер массива.
- * \return изменённый массив.
- */
-int* ArrayChange(int* myArray, size_t size);
-
-/**
- * \brief Замена минимального элемента массива на средний.
- * \param myArray массив.
- * \param size размер массива.
- * \param maxValue максимальное значение, которое может принимать элемент массива.
- */
-int* MinToLastChange(const size_t size, const int maxValue);
-
-/**
- * \brief Метод, возвращающий заполненный пользователем массив.
- * \param size размер массива.
- * \param minValue минимальное значение элементов массива.
- * \param maxValue максимальное значение элементов массива.
- * \return заполненный массив.
- */
-int* FillUserArray(size_t size);
-
-/**
- * \brief Варианы ввода массива.
- */
-enum class ArrayInputWay
+int method2(int *arr, int size)
 {
-    random,
-    keyboard
-};
+    int newSize = size;
+    for (int i = size; i >= 0; --i) { 
+        if (arr[i] % 3 == 0 and arr[i] % 2 == 1) {
+            newSize--;
+            for (int j = i; j < newSize; ++j)
+            {
+              arr[j] = arr[j + 1];
+            }
+        }
+    }
+    
+    return newSize;
+}
+
+/**
+ * \brief Создание нового массива по формуле
+ * \param arr массив.
+ * \param size размер массива.
+ * \return изменённый массив.
+ */
+int* method3(int *arr, int size)
+{
+    int* newArrayA = new int[size];
+    
+    for (int i = 0; i < size; ++i) { 
+        if (arr[i] == 0) {
+            newArrayA[i] = arr[i];
+        } else if (arr[i] % 2 != 0) {
+            newArrayA[i] = arr[i] - i;
+        } else {
+            newArrayA[i] = arr[i] + i;
+        }
+    }
+    
+    return newArrayA;
+}
 
 /**
  * \brief Точка входа в программу.
@@ -82,208 +103,46 @@ enum class ArrayInputWay
 int main()
 {
     setlocale(LC_ALL, "Russian");
-    size_t size = GetSize();
-
-    if (size == 0)
-        return 1;
-
-    cout << "Как вы хотите заполнить массив?\n";
-    cout << static_cast<int>(ArrayInputWay::random) << " - Рандом,\n";
-    cout << static_cast<int>(ArrayInputWay::keyboard) << " - Клавиатура.\n";
-    cout << "Ваш выбор: ";
-    int choice;
-    cin >> choice;
-
-    const auto chosen = static_cast<ArrayInputWay>(choice);
-    int* myArray = nullptr;
-
-    auto minValue = 0;
-    auto maxValue = 0;
-    cout << "Введите диапазон чисел массива (сначала минимум, потом максимум) " << endl;
-    cin >> minValue >> maxValue;
-    if (maxValue <= minValue)
-    {
-        cout << "Введен неправильный диапазон!" << endl;
+    
+    cout << "Введите размерность массива: ";
+    int n;
+    cin >> n;
+    
+    cout << "Выберите способ заполнения массива (1 - вручную, 2 - случаными числами): ";
+    int f;
+    cin >> f;
+    
+    int *SourceArray = new int[n];
+    
+    if (f == 1) {
+        for (int i = 0; i < n; ++i){
+            cout << "Введите элемент массива с индексом " << i << ":";
+            cin >> SourceArray[i];
+        }
+    } else {
+        cout << "Массив будет заполнен случайным образом" << endl;
+        random_device dev;
+        mt19937 rng(dev());
+        uniform_int_distribution<mt19937::result_type> dist(0,60); 
+        
+        for (int i = 0; i < n; ++i){
+            SourceArray[i] = dist(rng) - 20;;
+        }
     }
+    
+    cout << "Исходный массив: " << endl;
+    printArray(SourceArray, n);
+    
+    method1(SourceArray, n);
+    cout << endl << "Метод1: " << endl;
+    printArray(SourceArray, n);
+    
+    cout << endl << "Метод2: " << endl;
+    n = method2(SourceArray, n);
+    printArray(SourceArray, n);
 
-    switch (chosen)
-    {
-    case ArrayInputWay::random:
-    {
-        myArray = FillRandomArray(size, minValue, maxValue);
-        break;
-    }
-    case ArrayInputWay::keyboard:
-    {
-        myArray = FillUserArray(size);
-        break;
-    }
-    }
-
-    cout << "Массив с заменённым минимальным элементом: " << endl;
-
-    myArray = MinToLastChange(size, maxValue);
-    ArrayPrint(myArray, size);
-
-
-    int* newArray2 = new int[NewSize(myArray, size)];
-    cout << "Массив с удалёнными нечетными элементами, кратными 3м" << endl;
-    newArray2 = IsOddAndMulpiples3(myArray, size);
-    ArrayPrint(newArray2, size);
-
-    if (newArray2 != nullptr) {
-
-        delete[] newArray2;
-        newArray2 = nullptr;
-
-    }
-
-    cout << "Заменённый массив по формулам A[i] = C[i] + i и A[i] = C[i] - i" << endl;
-    newArray2 = ArrayChange(myArray, size);
-    ArrayPrint(newArray2, size);
-
-    if (myArray != nullptr) {
-
-        delete[] myArray;
-        myArray = nullptr;
-
-    }
+    cout << endl << "Метод3: " << endl;
+    printArray(method3(SourceArray, n), n);
+    
     return 0;
-
-}
-
-size_t GetSize() {
-    int size = 0;
-    cout << "Введите размер массива" << endl;
-    cin >> size;
-    if (size <= 0)
-    {
-        cout << "Введён неверный размер";
-        return 0;
-    }
-    else
-        return size;
-};
-
-size_t NewSize(const int* myArray, size_t size) {
-    size_t count = 0;
-    for (size_t index = 0; index < size; index++) {
-        if (myArray[index] % 2 == 1 && myArray[index] % 3 == 0) {
-            count++;
-        }
-    }
-    size = size - count;
-    return size;
-}
-
-int* MinToLastChange(const size_t size, const int maxValue)
-{
-    int temprary = 0;
-
-    auto minArrayValue = abs(maxValue);
-    size_t minElementIndex = 0;
-
-    int* newArray = new int[size];
-    for (size_t index = 0; index < size; index++) {
-        if (abs(newArray[index]) < minArrayValue) {
-            minArrayValue = abs(newArray[index]);
-            minElementIndex = index;
-        }
-    }
-
-    temprary = newArray[minElementIndex];
-    newArray[minElementIndex] = newArray[size - 1];
-    newArray[size - 1] = temprary;
-
-    return newArray;
-}
-
-int* ArrayChange(int* myArray, size_t size)
-{
-    int temprary = 0;
-    if (myArray == nullptr) {
-        cout << "Массив пуст";
-        return nullptr;
-    }
-
-    int* newArray = new int[size];
-    for (size_t index = 0, newindex = 0; index < size; index++) {
-        if (myArray[index] % 2 == 1) {
-            newArray[newindex] = myArray[index] - index;
-        }
-        else {
-            newArray[newindex] = myArray[index] + index;
-        }
-        newindex++;
-    }
-
-    return newArray;
-}
-
-int* IsOddAndMulpiples3(int* myArray, size_t size)
-{
-    if (myArray == nullptr) {
-        cout << "Массив пуст";
-        return nullptr;
-    }
-
-    size_t count = 0;
-    for (size_t index = 0; index < size; index++) {
-        if (myArray[index] % 2 == 1 && myArray[index] % 3 == 0) {
-            count++;
-        }
-    }
-
-    int* newArray = new int[size - count];
-    for (size_t index = 0, newindex = 0; index < size; index++) {
-        if (!(myArray[index] % 2 == 1 && myArray[index] % 3 == 0)) {
-            newArray[newindex] = myArray[index];
-            newindex++;
-        }
-    }
-    return newArray;
-}
-
-void ArrayPrint(const int* myArray, const size_t size)
-{
-    if (myArray == nullptr)
-    {
-        cout << "Массива не существует";
-    }
-    else {
-        cout << "Массив:\n";
-        for (size_t index = 0; index < size; index++) {
-            cout << myArray[index] << " ";
-        }
-        cout << "\n";
-
-    }
-}
-
-int* FillRandomArray(const size_t size, const int minValue, const int maxValue)
-{
-    random_device rd;
-
-    mt19937 gen(rd());
-
-    const std::uniform_int_distribution<> uniformIntDistribution(minValue, maxValue);
-
-    auto* myArray = new int[size];
-
-    for (size_t index = 0; index < size; index++)
-    {
-        myArray[index] = uniformIntDistribution(gen);
-    }
-    return myArray;
-}
-
-int* FillUserArray(const size_t size)
-{
-    auto* array = new int[size];
-    cout << "Введите элементы массива" << "\n";
-    for (size_t index = 0; index < size; index++)
-    {
-        cin >> array[index];
-    }
-    return array;
 }
