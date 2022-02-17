@@ -1,79 +1,133 @@
+#include <string>
 #include <iostream>
-#include <cmath>
-
-using namespace std;
+#include <iomanip>
 
 /**
- * \brief рекурсивная функция для расчета значения.
- * param k число.
- * \return значение.
- */
-double getSumm(int k);
-/**
- * \brief функция нахождения факториала нужного для вычисления члена ряда.
- *  \param k номер члена ряда.
- *  \return факториал.
- */
-double getFactorial(int k);
+* \brief Считать количество членов последовательности.
+* \param message Сообщение пользователю.
+* \return Количество членов последовательности.
+* \exception std::invalid_argument В случае количества, меньшего 1.
+*/
+size_t getCount(const std::string& message = "");
 
-double getSumm(int k)  
-{
-    if (k == 0) {
-        return 1;       
-    } else {
-        return ((1 / getFactorial(2 * k)) + getSumm(k - 1)); 
-    }        
-}
 /**
- * \brief функция нахождения меньшей суммы.
- * \param an текущий член последовательности.
- * \return сумма всех членов последовательности.
- */
-double getSummLessE(int k, double e)
-{
-    double an;
-    an = (1 / getFactorial(2 * k)); 
-    if ((an < e) or (k >= 1000)) {
-        return 0;       
-    } else {           
-        return (an + getSummLessE(k + 1, e)); 
-    }        
-}
+* \brief Считать точность вычисления суммы последовательности.
+* \param message Сообщение пользователю.
+* \return Точность вычиcления членов последовательности.
+* \exception std::invalid_argument В случае точности, меньшего или равна 0.
+*/
+double getEpsilon(const std::string& message = "");
 
-double getFactorial(int k)
-{
-    int factorial = 1;
-    for (size_t i = 1; i <= k; i++)
-        factorial *= i;
-    return (factorial);
-}
 /**
- * \brief точка входа в программу 
- * return 0 в случае успеха
- */
+* \brief Рассчитывает суммму последовательности.
+* \param count Количество членов последовательности.
+* \return Сумма последовательности.
+*/
+double getSum(const size_t count);
+
+/**
+* \brief Рассчитывает суммму последовательности.
+* \param epsilon Точность вычиcления членов последовательности.
+* \return Сумма последовательности.
+*/
+double getSum(const double epsilon);
+
+
+/**
+* \brief Рассчитывает рекуррентный член последовательности.
+* \param k Номер члена последовательности.
+* \return Значение рекуррентного члена последовательности.
+*/
+double getRecurrent(const size_t k);
+
+/**
+* \brief Точка входа в программу.
+* \return 0 в случае успеха.
+*/
 int main()
 {
-    setlocale(LC_ALL, "Russian");
-    cout.setf(std::ios::fixed);
-    cout.precision(10);
+	try 
+	{
+		const auto count = getCount("Введите количество членов последовательности = ");
+		auto sum = getSum(count);
+		std::cout << std::setprecision(20) << "Сумма " << count << " членов последовательности равна " << sum << "\n";
 
-    cout << "Введите количество членов ряда: ";
-    int n;
-    cin >> n;    
-    if (n < 0){
-        cout << "n должно быть целым и не отрицательным, попробуйте ещё раз" << endl;
-        return 0;
-    }
-    cout << "Сумма ряда: " << getSumm(n); 
-    
-    cout << '\n' << "Введите положительное рациональное число e: ";
-    double e;
-    cin >> e; 
-    if (e < 0){
-        cout << "e должно быть не отрицательным, попробуйте ещё раз" << endl;
-        return 0;
-    }    
-    cout << "Сумма всех членов последователности меньших e: " << getSummLessE(0, e); 
+		const auto epsilon = getEpsilon("Введите точность вычисления = ");
+		sum = getSum(epsilon);
+		std::cout << std::setprecision(20) << "Сумма членов последовательности с заданной точностью равна " << sum << "\n";
+	}
+	catch (std::invalid_argument const& ex)
+	{
+		std::cerr << ex.what();
+		return 1;
+	}
 
-    return 0;
+	return 0;
+}
+
+size_t getCount(const std::string& message)
+{
+	const auto THRESHOLD = 1;
+
+	std::cout << message;
+	auto count = THRESHOLD;
+	std::cin >> count;
+
+	if (count < THRESHOLD)
+	{
+		throw std::invalid_argument("Число должно быть больше " + std::to_string(THRESHOLD));
+	}
+
+	return count;
+}
+
+double getEpsilon(const std::string& message)
+{
+	const auto THRESHOLD = 0.0;
+
+	std::cout << message;
+	auto epsilon = 1e-5;
+	std::cin >> epsilon;
+
+	if (epsilon <= THRESHOLD)
+	{
+		throw std::invalid_argument("Число должно быть больше " + std::to_string(THRESHOLD));
+	}
+
+	return epsilon;
+}
+
+double getSum(const size_t count)
+{
+	auto current = 1.0;
+	auto sum = current;
+
+	for (size_t k = 1; k < count; k++)
+	{
+		current *= getRecurrent(k);
+		sum += current;
+	}
+
+	return sum;
+}
+
+double getSum(const double epsilon)
+{
+	auto current = 1.0;
+	auto sum = current;
+	size_t k = 1;
+
+	while(std::abs(current) > epsilon)
+	{ 
+		current *= getRecurrent(k);
+		sum += current;
+		k++;
+	}
+
+	return sum;
+}
+
+double getRecurrent(const size_t k)
+{
+	return 1.0 / (4*k*k + 6*k +2); 
 }
