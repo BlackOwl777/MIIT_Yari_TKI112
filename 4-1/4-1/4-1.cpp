@@ -206,7 +206,7 @@ void ShowIndex(int* array, size_t size) {
 bool CheckElement(int* array, size_t size) {
     int k = 0;
 
-    for (size_t i = 0; i < size; i++)
+    for (size_t i = 0; i < size-1; i++)
         if (array[i] * array[i + 1] > 0)
             k++;
     return k >= 2;
