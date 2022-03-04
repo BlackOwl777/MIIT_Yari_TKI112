@@ -105,26 +105,6 @@ void printArray(int* arr, int size)
   for (int i = 0; i < size; ++i) cout << arr[i] << ' ';
 }
 
-void getReplacingArray(int* arr, int size)
-{
-  int minIndex = -1;
-  int minValue = 40;
-  for (int i = 0; i < size; ++i) {
-    if (arr[i] <= minValue and arr[i] > 0) {
-      minIndex = i;
-      minValue = arr[i];
-    }
-  }
-
-  if (minIndex != -1 and arr[minIndex] != arr[size - 1]) {
-    arr[minIndex] = arr[size - 1];
-    cout << endl << "был изменен элемент с индексом " << minIndex << endl;
-  }
-  else {
-    cout << endl << "изменений не произведено, т.к. отсутствуют положительные элементы отличные от послежнего" << endl;
-  }
-}
-
 int getOddElements(int* arr, int size)
 {
   int newSize = size;
