@@ -24,7 +24,7 @@ int getOddElements(int* arr, int size);
 * \param size размер массива.
 * \return изменённый массив.
 */
-int* getNewArray(int* arr, int size);
+int* getNewArray(int* arr, int* newArrayA, int size);
 /**
 * \brief Точка входа в программу.
 * \return 0, в случае успеха.
@@ -33,6 +33,8 @@ int* getNewArray(int* arr, int size);
 void FillArrayKeyboard(int* SourceArray, const size_t n);
 
 void FillArrayRandom(int* SourceArray, const size_t n);
+
+void printArray(int* arr, int size);
 
 enum class Choice
 {
@@ -61,11 +63,11 @@ int main()
 
   do
   {
-    cout << "Заполнить массив: " << "\nС клавиаутры - " << static_cast<int>(Choise::KEYBOARD) << "\nСлучайными числами - " << static_cast<int>(Method::RANDOM) << "\nВведите опцию: " << endl;;
+    cout << "Заполнить массив: " << "\nС клавиаутры - " << static_cast<int>(Choice::KEYBOARD) << "\nСлучайными числами - " << static_cast<int>(Choice::RANDOM) << "\nВведите опцию" << endl;
     cin >> key;
-  } while (key != static_cast<int>(Choise::KEYBOARD) && key != static_cast<int>(Choise::RANDOM));
+  } while (key != static_cast<int>(Choice::KEYBOARD) && key != static_cast<int>(Choice::RANDOM));
   
-  if (key == static_cast<int>(Choise::KEYBOARD))
+  if (key == static_cast<int>(Choice::KEYBOARD))
   {
     FillArrayKeyboard(SourceArray, n);
   }
@@ -77,23 +79,27 @@ int main()
 
   cout << "Исходный массив: " << endl;
   printArray(SourceArray, n);
-
-  getReplacingArray(SourceArray, n);
-  cout << endl << "Метод1: " << endl;
-  printArray(SourceArray, n);
-
+  
   cout << endl << "Метод2: " << endl;
   getOddElements(SourceArray, n);
   printArray(SourceArray, n);
 
   cout << endl << "Метод3: " << endl;
-  printArray(getNewArray(SourceArray, n), n);
+  int *newArrayA = new int[n];
+  newArrayA = getNewArray(SourceArray, newArrayA, n);
+  printArray(newArrayA, n);
 
   if (SourceArray != nullptr)
   {
     delete[] SourceArray;
     SourceArray = nullptr;
   }
+  if (newArrayA != nullptr)
+  {
+	  delete[] newArrayA;
+	  newArrayA = nullptr;
+  }
+
 
   return 0;
 }
@@ -121,25 +127,16 @@ int getOddElements(int* arr, int size)
   return newSize;
 }
 
-int* getNewArray(int* arr, int size)
+int* getNewArray(int* arr, int *newArrayA, int size)
 {
-  int* newArrayA = new int[size];
 
   for (int i = 0; i < size; i++) {
-    if (arr[i] % 2 != 0) {
+    if (arr[i] % 2 != 0)
       newArrayA[i] = arr[i] - i;
-    }
-    else {
+    else
       newArrayA[i] = arr[i] + i;
-    }
   }
-  int *arrayForExit;
-  arrayForExit = newArrayA;
-  if (newArrayA != nullptr) {
-    delete[] newArrayA;
-  newArrayA = nullptr;
-  }
-  return (arrayForExit);
+  return (newArrayA);
 }
 
 void FillArrayKeyboard(int* SourceArray, const size_t n)
