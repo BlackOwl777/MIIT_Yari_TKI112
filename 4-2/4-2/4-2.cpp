@@ -136,8 +136,13 @@ int* getNewArray(int* arr, int size)
       newArrayA[i] = arr[i] + i;
     }
   }
-
-  return newArrayA;
+  int *arrayForExit;
+  arrayForExit = newArrayA;
+  if (newArrayA != nullptr) {
+    delete[] newArrayA;
+  newArrayA = nullptr;
+  }
+  return (arrayForExit);
 }
 
 void FillArrayKeyboard(int* SourceArray, const size_t n)
