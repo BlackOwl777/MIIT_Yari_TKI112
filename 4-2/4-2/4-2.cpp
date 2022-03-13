@@ -102,13 +102,13 @@ int main()
 void printArray(int* arr, int size)
 
 {
-  for (int i = 0; i < size; ++i) cout << arr[i] << ' ';
+  for (int i = 0; i < size; i++) cout << arr[i] << ' ';
 }
 
 int getOddElements(int* arr, int size)
 {
   int newSize = size;
-  for (int i = size; i >= 0; --i) {
+  for (int i = size; i >= 0; i--) {
     if (arr[i] % 3 == 0 and arr[i] % 2 == 1) {
       newSize--;
       for (int j = i; j < newSize; ++j)
