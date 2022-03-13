@@ -125,11 +125,8 @@ int* getNewArray(int* arr, int size)
 {
   int* newArrayA = new int[size];
 
-  for (int i = 0; i < size; ++i) {
-    if (arr[i] == 0) {
-      newArrayA[i] = arr[i];
-    }
-    else if (arr[i] % 2 != 0) {
+  for (int i = 0; i < size; i++) {
+    if (arr[i] % 2 != 0) {
       newArrayA[i] = arr[i] - i;
     }
     else {
