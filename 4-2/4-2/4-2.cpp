@@ -9,16 +9,22 @@ using namespace std;
 * \brief Заменить минимальный по модулю положительный элемент массива последним.
 * \param arr массив.
 * \param size размер массива.
-* \return измененный массив на максимальный среди отрицательных.
 */
 void getReplacingArray(int* arr, size_t size);
+/**
+* \brief поиск минимального элемента
+* \param arr массив
+* \param size размер массива
+* \return значение минимального элемента массива
+*/
+int findMin(int* arr, size_t size);
 /**
 * \brief Удаление нечетных элементов, кратных 3.
 * \param arr массив.
 * \param size размер массива.
 * \return количество элементов измененного массива.
 */
-int getOddElements(int* arr, size_t size);
+size_t getOddElements(int* arr, size_t size);
 /**
 * \brief Создание нового массива по формуле
 * \param arr массив.
@@ -72,10 +78,8 @@ int main()
         cout << "Размер не может быть отрицательным, введите размер ещё раз:" << endl;
         cin >> size;
     }
-    size_t n;
-    n = size;
     int* sourceArray = new int[size];
-    
+
     size_t key;
     do
     {
@@ -85,21 +89,30 @@ int main()
 
     if (key == static_cast<int>(Choice::KEYBOARD))
     {
-        FillArrayKeyboard(sourceArray, n);
+        FillArrayKeyboard(sourceArray, size);
     }
     else if (key == static_cast<int>(Choice::RANDOM))
     {
-        FillArrayRandom(sourceArray, n);
+        FillArrayRandom(sourceArray, size);
+    }
+    else
+    {
+        cout << "Неверный ввод!\n";
+        return 0;
     }
 
-    cout << "Исходный массив: " << endl;
-    printArray(sourceArray, n);
+    cout << "Исходный массив: " << "\n";
+    printArray(sourceArray, size);
 
-    cout << endl << "Метод2: " << endl;
-    int newSize = getOddElements(sourceArray, n);
+    cout << "\n" << "Метод1:" << "\n";
+    getReplacingArray(sourceArray, size);
+    printArray(sourceArray, size);
+
+    cout << "\n" << "Метод2: " << "\n";
+    int newSize = getOddElements(sourceArray, size);
     printArray(sourceArray, newSize);
 
-    cout << endl << "Метод3: " << endl;
+    cout << endl << "Метод3: " << "\n";
     int* newArrayA = getNewArray(sourceArray, newSize);
     printArray(newArrayA, newSize);
 
@@ -118,23 +131,49 @@ int main()
     return 0;
 }
 
+void getReplacingArray(int* arr, size_t size)
+{
+    int min = findMin(arr, size);
+
+    for (size_t i = 0; i < size; i++)
+    {
+        if (arr[i] == min)
+        {
+            arr[i] = arr[size - 1];
+            break;
+        }
+    }
+}
+
+int findMin(int* arr, size_t size)
+{
+    int min = arr[0];
+
+    for (size_t i = 0; i < size - 1; i++)
+    {
+        if (min > arr[i])
+            min = arr[i];
+    }
+    return (min);
+}
+
 
 void printArray(int* arr, size_t size)
 
 {
-    for (int i = 0; i < size; i++) cout << arr[i] << ' ';
+    for (size_t i = 0; i < size; i++) cout << arr[i] << ' ';
 }
 
-int getOddElements(int* arr, size_t size)
+size_t getOddElements(int* arr, size_t size)
 {
-    int newSize = size;
-    for (int i = 0; i < size; i++) {
-        if (arr[i] % 3 == 0) {
+    size_t newSize = size;
+    for (size_t i = 0; i < size ; i++) 
+    {
+        if (arr[i] % 3 == 0 && ((arr[i] % 10) % 2 != 0))
+        {
             newSize--;
             for (int j = i; j < newSize; ++j)
-            {
                 arr[j] = arr[j + 1];
-            }
         }
     }
 
@@ -144,7 +183,7 @@ int getOddElements(int* arr, size_t size)
 int* getNewArray(int* arr, size_t size)
 {
     int* newArrayA = new int[size];
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         if (arr[i] % 2 != 0)
             newArrayA[i] = arr[i] - i;
         else
